@@ -1,0 +1,49 @@
+:root {
+  /* ========================================================
+     🎨 Palette: Pastel Sky Blue & Cozy Study Warmth
+     ======================================================== */
+  --sky-bg-gradient: linear-gradient(180deg, #dbeafe 0%, #e0f2fe 50%, #f0f9ff 100%);
+  --sky-night-gradient: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+
+  /* สีฟ้าพาสเทลหลัก */
+  --blue-50: #f0f9ff;
+  --blue-100: #e0f2fe;
+  --blue-200: #bae6fd;
+  --blue-300: #7dd3fc;
+  --blue-400: #38bdf8;
+  --blue-500: #0ea5e9;
+  --blue-600: #0284c7;
+
+  /* สีอุ่นแซม (ตัดกับฟ้าพาสเทลเพื่อความนุ่มฟู) */
+  --sun-yellow: #fef08a;
+  --sun-yellow-light: #fef9c3;
+  --peach-pink: #fbcfe8;
+  --peach-soft: #fed7aa;
+  --mint-green: #bbf7d0;
+
+  /* ตัวหนังสือ */
+  --text-dark: #1e293b;
+  --text-body: #334155;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  --text-white: #ffffff;
+
+  /* สไตล์ Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-hover: rgba(255, 255, 255, 0.88);
+  --glass-bg-active: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-border-subtle: rgba(186, 230, 253, 0.4);
+  --glass-shadow: 0 10px 30px -5px rgba(56, 189, 248, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  --glass-shadow-lg: 0 20px 40px -10px rgba(56, 189, 248, 0.25), 0 8px 12px -3px rgba(0, 0, 0, 0.05);
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  /* Font Families */
+  --font-thai: 'Mitr', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-en: 'Outfit', sans-serif;
+}
