@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { PetState } from '../../types/gamification.types';
 import { gamificationService, PET_SPECIES } from '../../services/gamificationService';
 import { audioService } from '../../services/audioService';
+import { ThreePetCanvas } from './ThreePetCanvas';
 import { Heart, Sparkles } from 'lucide-react';
 
 interface CozyPetViewProps {
@@ -11,7 +12,6 @@ interface CozyPetViewProps {
 export const CozyPetView: React.FC<CozyPetViewProps> = ({ onGoToPetCare }) => {
   const [petState] = useState<PetState>(gamificationService.getPetState());
   const [speechBubble, setSpeechBubble] = useState('เค้านั่งอ่านหนังสือเป็นเพื่อนนะ 🐾');
-  const [isWiggling, setIsWiggling] = useState(false);
 
   const petInfo = PET_SPECIES.find(s => s.type === petState.type) || PET_SPECIES[0];
 
@@ -48,8 +48,6 @@ export const CozyPetView: React.FC<CozyPetViewProps> = ({ onGoToPetCare }) => {
 
   const handlePetClick = () => {
     audioService.playPop();
-    setIsWiggling(true);
-    setTimeout(() => setIsWiggling(false), 500);
 
     const dialogues = petDialogue[petState.type] || petDialogue.gecko;
     const randomText = dialogues[Math.floor(Math.random() * dialogues.length)];
@@ -121,44 +119,27 @@ export const CozyPetView: React.FC<CozyPetViewProps> = ({ onGoToPetCare }) => {
         <span>{speechBubble}</span>
       </div>
 
-      {/* Pet Avatar Graphic */}
-      <div
-        onClick={handlePetClick}
-        style={{
-          cursor: 'pointer',
-          margin: '4px auto 10px',
-          display: 'inline-flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-          transform: isWiggling ? 'scale(1.2) rotate(8deg)' : 'scale(1)',
-        }}
-        title="คลิกเล่นกับน้องสัตว์เลี้ยง"
-      >
-        {/* Cute Mascot Sphere with Pet Emoji and Accessories */}
+      {/* 3D/4D Interactive Pet Canvas */}
+      <div style={{ margin: '4px 0 10px', position: 'relative' }}>
+        <ThreePetCanvas
+          petType={petState.type}
+          size={170}
+          onClick={handlePetClick}
+        />
         <div style={{
-          width: '90px',
-          height: '90px',
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(224, 242, 254, 0.8))',
-          border: '3px solid #ffffff',
-          boxShadow: '0 8px 24px rgba(56, 189, 248, 0.25)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '3.2rem',
-          position: 'relative',
+          position: 'absolute',
+          bottom: '2px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          fontSize: '0.72rem',
+          color: 'var(--text-muted)',
+          background: 'rgba(255, 255, 255, 0.75)',
+          padding: '2px 8px',
+          borderRadius: 'var(--radius-full)',
+          whiteSpace: 'nowrap',
+          pointerEvents: 'none'
         }}>
-          <span>{petInfo.emoji}</span>
-          {/* Glasses or Graduation Accessory */}
-          <span style={{
-            position: 'absolute',
-            bottom: '-2px',
-            right: '-2px',
-            fontSize: '1.2rem',
-          }}>
-            👓
-          </span>
+          ✨ 3D Toy (หันตามเมาส์)
         </div>
       </div>
 

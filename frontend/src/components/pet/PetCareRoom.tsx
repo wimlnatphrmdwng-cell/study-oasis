@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { PetState, PetType } from '../../types/gamification.types';
 import { gamificationService, PET_SPECIES } from '../../services/gamificationService';
 import { audioService } from '../../services/audioService';
+import { ThreePetCanvas } from './ThreePetCanvas';
 import { Heart, Check, Utensils } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -103,18 +104,13 @@ export const PetCareRoom: React.FC<PetCareRoomProps> = ({ onPetUpdated }) => {
         background: 'rgba(255, 255, 255, 0.85)'
       }}>
         <div style={{
-          fontSize: '3.8rem',
-          width: '80px',
-          height: '80px',
-          borderRadius: '50%',
-          background: 'rgba(224, 242, 254, 0.6)',
+          width: '130px',
+          height: '130px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 4px 14px rgba(56, 189, 248, 0.2)',
-          border: '2px solid #ffffff'
         }}>
-          {activeSpecies.emoji}
+          <ThreePetCanvas petType={pet.type} size={130} />
         </div>
 
         <div style={{ flex: 1, minWidth: '200px' }}>
