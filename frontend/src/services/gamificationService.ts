@@ -9,12 +9,12 @@ const STORAGE_KEYS = {
 };
 
 export const PET_SPECIES = [
-  { type: 'gecko' as PetType, name: 'ตุ๊กแกหางอ้วน', defaultNickname: 'น้องกุมิ (Gumi)', emoji: '🦎', description: 'ตัวพาสเทล หางอวบดุ๊กดิ๊ก ตาโตแป๋ว เกาะโต๊ะอ่านหนังสือคอยให้กำลังใจ', favoriteSnack: 'เยลลี่แมลงหวาน 🪲' },
-  { type: 'cat' as PetType, name: 'น้องแมวส้ม', defaultNickname: 'โมจิ (Mochi)', emoji: '🐱', description: 'นอนขดตัวบนกองหนังสือ กระดิกหางเบาๆ เมื่อเปิดโหมดอ่านหนังสือ', favoriteSnack: 'ปลาแห้งกรอบ 🐟' },
-  { type: 'dog' as PetType, name: 'น้องหมาคอร์กี้', defaultNickname: 'พุดดิ้ง (Pudding)', emoji: '🐶', description: 'สวมแว่นตาขยับหูทักทาย ร่าเริงคอยเชียร์ไม่ให้ง่วง', favoriteSnack: 'บิสกิตกระดูก 🦴' },
-  { type: 'rabbit' as PetType, name: 'น้องกระต่ายขาว', defaultNickname: 'สโนวี่ (Snowy)', emoji: '🐰', description: 'แทะแครอท กระโดดดีใจเวลารอบ Pomodoro จบลง', favoriteSnack: 'เบบี้แครอท 🥕' },
-  { type: 'squirrel' as PetType, name: 'น้องกระรอกหางฟู', defaultNickname: 'เชสนัท (Chestnut)', emoji: '🐿️', description: 'กอดลูกโอ๊ก มีสมุดโน้ตจิ๋ววางข้างๆ ขยันเก็บชีท', favoriteSnack: 'ลูกโอ๊กทองคำ 🌰' },
-  { type: 'turtle' as PetType, name: 'น้องเต่าตัวน้อย', defaultNickname: 'เปโปะ (Pepo)', emoji: '🐢', description: 'สวมหมวกรับปริญญา สื่อถึงความพยายามช้าๆ แต่มั่นคง', favoriteSnack: 'ใบโคลเวอร์ 4 แฉก 🍀' },
+  { type: 'cat' as PetType, name: 'น้องแมวส้ม', defaultNickname: 'โมจิ (Mochi)', emoji: '🐱', image: '/pets/cat.jpg', description: 'ยืนสองขาพุงกลม ขนฟูส้มทอง ตาโตแป๋วสะท้อนแสงแดดอบอุ่น', favoriteSnack: 'ปลาแซลมอนย่าง 🐟' },
+  { type: 'gecko' as PetType, name: 'ตุ๊กแกหางอ้วน', defaultNickname: 'น้องกุมิ (Gumi)', emoji: '🦎', image: '/pets/gecko.jpg', description: 'ผิวเนียนนุ่ม หางอ้วนป่องดุ๊กดิ๊ก สวมแว่นตากลมถือดินสอตั้งใจอ่านหนังสือ', favoriteSnack: 'เยลลี่แมลงหวาน 🪲' },
+  { type: 'dog' as PetType, name: 'น้องหมาคอร์กี้', defaultNickname: 'พุดดิ้ง (Pudding)', emoji: '🐶', image: '/pets/dog.jpg', description: 'ขนปุยหนานุ่ม หูตั้งใหญ่ สวมผ้าพันคอฟ้า ยิ้มร่าเริงคอยเชียร์', favoriteSnack: 'บิสกิตกระดูก 🦴' },
+  { type: 'rabbit' as PetType, name: 'น้องกระต่ายขาว', defaultNickname: 'สโนวี่ (Snowy)', emoji: '🐰', image: '/pets/rabbit.jpg', description: 'ขนปุยขาวหิมะ หูยาวนุ่มลู่ นั่งอ่านสมุดเล่มจิ๋วด้วยความตั้งใจ', favoriteSnack: 'เบบี้แครอท 🥕' },
+  { type: 'squirrel' as PetType, name: 'น้องกระรอกหางฟู', defaultNickname: 'เชสนัท (Chestnut)', emoji: '🐿️', image: '/pets/squirrel.jpg', description: 'พวงหางฟูฟ่องสีคาราเมล กอดลูกโอ๊กทองคำคอยเป็นกำลังใจ', favoriteSnack: 'ลูกโอ๊กทองคำ 🌰' },
+  { type: 'turtle' as PetType, name: 'น้องเต่าตัวน้อย', defaultNickname: 'เปโปะ (Pepo)', emoji: '🐢', image: '/pets/turtle.jpg', description: 'กระดองหยกเงาวาว สวมหมวกรับปริญญา ความพยายามที่มั่นคง', favoriteSnack: 'ใบโคลเวอร์ 4 แฉก 🍀' },
 ];
 
 export const gamificationService = {

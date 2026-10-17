@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import type { PetState, PetType } from '../../types/gamification.types';
 import { gamificationService, PET_SPECIES } from '../../services/gamificationService';
 import { audioService } from '../../services/audioService';
-import { ThreePetCanvas } from './ThreePetCanvas';
 import { Heart, Check, Utensils } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -104,13 +103,19 @@ export const PetCareRoom: React.FC<PetCareRoomProps> = ({ onPetUpdated }) => {
         background: 'rgba(255, 255, 255, 0.85)'
       }}>
         <div style={{
-          width: '130px',
-          height: '130px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          width: '110px',
+          height: '110px',
+          borderRadius: '20px',
+          overflow: 'hidden',
+          boxShadow: '0 8px 20px rgba(0,0,0,0.12), 0 0 15px rgba(254, 240, 138, 0.4)',
+          border: '2.5px solid #ffffff',
+          position: 'relative',
         }}>
-          <ThreePetCanvas petType={pet.type} size={130} />
+          <img
+            src={activeSpecies.image}
+            alt={activeSpecies.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
         </div>
 
         <div style={{ flex: 1, minWidth: '200px' }}>
@@ -217,7 +222,21 @@ export const PetCareRoom: React.FC<PetCareRoomProps> = ({ onPetUpdated }) => {
                   transition: 'all 0.2s ease'
                 }}
               >
-                <div style={{ fontSize: '2.4rem', marginBottom: '4px' }}>{s.emoji}</div>
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  margin: '0 auto 6px',
+                  boxShadow: '0 3px 8px rgba(0,0,0,0.1)',
+                  border: '1.5px solid #ffffff'
+                }}>
+                  <img
+                    src={s.image}
+                    alt={s.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </div>
                 <div style={{ fontSize: '0.86rem', fontWeight: 600, color: 'var(--text-dark)' }}>
                   {s.name}
                 </div>

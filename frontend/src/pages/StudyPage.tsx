@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PomodoroTimer } from '../components/study/PomodoroTimer';
 import { AmbientSoundMixer } from '../components/study/AmbientSoundMixer';
-import { CozyPetView } from '../components/pet/CozyPetView';
+import { PixarPetView } from '../components/pet/PixarPetView';
 import { VisionBoardCard } from '../components/goals/VisionBoardCard';
 import { Maximize2, Minimize2, Lightbulb, Coffee } from 'lucide-react';
 import { audioService } from '../services/audioService';
@@ -63,7 +63,7 @@ export const StudyPage: React.FC = () => {
         {/* Left Column: Pomodoro Timer & Pet Companion */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <PomodoroTimer />
-          {!isZenMode && <CozyPetView onGoToPetCare={() => window.location.hash = '#/journal'} />}
+          {!isZenMode && <PixarPetView onGoToPetCare={() => window.location.hash = '#/journal'} />}
         </div>
 
         {/* Right Column: Sound Mixer & Focus Environment (Hidden in Zen Mode) */}
