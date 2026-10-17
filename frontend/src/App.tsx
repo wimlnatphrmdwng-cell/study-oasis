@@ -65,7 +65,7 @@ export const App: React.FC = () => {
       />
 
       {/* 4. Active Page Content */}
-      <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 20px' }}>
+      <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '10px 20px 48px' }}>
         {currentRoute === 'home' && <HomePage onNavigate={navigate} />}
         {currentRoute === 'study' && <StudyPage />}
         {currentRoute === 'chat' && <ChatPage />}
