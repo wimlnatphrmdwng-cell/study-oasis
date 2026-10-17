@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { PageRoute, StudentMood } from '../types/navigation.types';
 import { TimeGreeting } from '../components/greeting/TimeGreeting';
 import { StudentAffirmationCard } from '../components/greeting/StudentAffirmationCard';
+import { KindnessBoard } from '../components/community/KindnessBoard';
 import { StudyMascot } from '../components/mascot/StudyMascot';
 import { BookOpen, MessageCircleHeart, Sparkles, BookHeart } from 'lucide-react';
 import { audioService } from '../services/audioService';
@@ -248,7 +249,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* 5. Mascot Presence */}
+      {/* 5. Anonymous Kindness Board from Friends */}
+      <KindnessBoard />
+
+      {/* 6. Mascot Presence */}
       <StudyMascot onOpenChat={() => onNavigate('chat')} />
     </div>
   );

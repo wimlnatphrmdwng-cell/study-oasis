@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Sparkles, Heart, Gift } from 'lucide-react';
+import { CloudBreathing } from '../components/mindfulness/CloudBreathing';
 import { audioService } from '../services/audioService';
 import confetti from 'canvas-confetti';
 
@@ -82,6 +83,9 @@ export const RelaxPage: React.FC = () => {
           พื้นที่ทิ้งความเหนื่อยล้า พักผ่อนสมอง และเติมความสดใสให้ตัวเอง
         </p>
       </div>
+
+      {/* Cloud Breathing 4-7-8 Focus Game */}
+      <CloudBreathing />
 
       <div style={{
         display: 'grid',

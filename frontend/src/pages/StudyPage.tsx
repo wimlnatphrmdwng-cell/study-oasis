@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { PomodoroTimer } from '../components/study/PomodoroTimer';
 import { AmbientSoundMixer } from '../components/study/AmbientSoundMixer';
+import { CozyPetView } from '../components/pet/CozyPetView';
+import { VisionBoardCard } from '../components/goals/VisionBoardCard';
 import { Maximize2, Minimize2, Lightbulb, Coffee } from 'lucide-react';
 import { audioService } from '../services/audioService';
 
@@ -48,6 +50,9 @@ export const StudyPage: React.FC = () => {
         </button>
       </div>
 
+      {/* Pinned Vision Goal Banner */}
+      {!isZenMode && <VisionBoardCard isPinnedBannerOnly={true} />}
+
       {/* Main Focus Area */}
       <div style={{
         display: 'grid',
@@ -55,12 +60,18 @@ export const StudyPage: React.FC = () => {
         gap: '24px',
         alignItems: 'start'
       }}>
-        {/* Pomodoro Timer */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {/* Left Column: Pomodoro Timer & Pet Companion */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <PomodoroTimer />
+          {!isZenMode && <CozyPetView onGoToPetCare={() => window.location.hash = '#/journal'} />}
+        </div>
 
-          {/* Quick Study Tip */}
-          {!isZenMode && (
+        {/* Right Column: Sound Mixer & Focus Environment (Hidden in Zen Mode) */}
+        {!isZenMode && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <AmbientSoundMixer />
+
+            {/* Quick Study Tip */}
             <div className="glass-card" style={{
               padding: '16px 20px',
               display: 'flex',
@@ -72,25 +83,18 @@ export const StudyPage: React.FC = () => {
             }}>
               <Lightbulb size={20} color="#f59e0b" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
-                <strong>เทคนิคจากน้องเมฆ:</strong> ถ้าเริ่มอ่านแล้วรู้สึกหนืด ให้บอกตัวเองว่า <em>"ขอแค่ 5 นาทีนี้เท่านั้น"</em> เมื่อเริ่มได้แล้ว สมองจะปรับเข้าสู่ Flow State ได้ง่ายขึ้นเองนะ ✨
+                <strong>เทคนิคจากสัตว์เลี้ยง:</strong> ถ้าเริ่มอ่านแล้วรู้สึกหนืด ให้บอกตัวเองว่า <em>"ขอแค่ 5 นาทีนี้เท่านั้น"</em> เมื่อเริ่มได้แล้ว สมองจะปรับเข้าสู่ Flow State ได้ง่ายขึ้นเองนะ ✨
               </div>
             </div>
-          )}
-        </div>
-
-        {/* Right Column: Sound Mixer & Focus Environment (Hidden in Zen Mode) */}
-        {!isZenMode && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <AmbientSoundMixer />
 
             {/* Live Study Companion Banner */}
             <div className="glass-panel" style={{ padding: '20px', textAlign: 'center' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '8px' }}>☁️👓</div>
+              <div style={{ fontSize: '2rem', marginBottom: '8px' }}>☁️☕</div>
               <h4 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-dark)', marginBottom: '6px' }}>
-                น้องเมฆอ่านเป็นเพื่อนอยู่ตรงนี้
+                เพื่อนๆ อีกกว่า 1,420 คนกำลังอ่านไปด้วยกัน
               </h4>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '14px' }}>
-                พร้อมเพื่อนๆ อีกกว่า 1,420 คนบนท้องฟ้านี้ เธอไม่ได้กำลังสู้อยู่คนเดียวนะ
+                เธอไม่ได้สู้อยู่คนเดียวนะ ค่อยๆ เก็บความรู้ทีละหน้า
               </p>
               <div style={{
                 display: 'inline-flex',
