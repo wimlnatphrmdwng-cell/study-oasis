@@ -1,37 +1,61 @@
 import React from 'react';
-import { Volume2, VolumeX, MessageCircleHeart, Users, Sparkles } from 'lucide-react';
+import type { PageRoute } from '../../types/navigation.types';
+import { Home, BookOpen, MessageCircleHeart, Sparkles, BookHeart, Volume2, VolumeX, Users } from 'lucide-react';
 import { audioService } from '../../services/audioService';
 
 interface TopNavigationProps {
-  onOpenChat: () => void;
-  onOpenShredder: () => void;
+  currentRoute: PageRoute;
+  onNavigate: (route: PageRoute) => void;
   isMuted: boolean;
   onToggleMute: () => void;
   activeOnlineCount: number;
 }
 
 export const TopNavigation: React.FC<TopNavigationProps> = ({
-  onOpenChat,
-  onOpenShredder,
+  currentRoute,
+  onNavigate,
   isMuted,
   onToggleMute,
   activeOnlineCount
 }) => {
+  const navTabs: { id: PageRoute; label: string; icon: React.ReactNode }[] = [
+    { id: 'home', label: 'หน้าแรก', icon: <Home size={17} /> },
+    { id: 'study', label: 'ห้องอ่านหนังสือ', icon: <BookOpen size={17} /> },
+    { id: 'chat', label: 'คุยกับน้องเมฆ', icon: <MessageCircleHeart size={17} /> },
+    { id: 'relax', label: 'ลานคลายเครียด', icon: <Sparkles size={17} /> },
+    { id: 'journal', label: 'สมุดบันทึก', icon: <BookHeart size={17} /> },
+  ];
+
+  const handleTabClick = (route: PageRoute) => {
+    audioService.playPop();
+    onNavigate(route);
+  };
+
   return (
     <header className="glass-panel" style={{
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '12px 24px',
-      margin: '16px auto',
-      maxWidth: '1200px',
+      padding: '10px 20px',
+      margin: '14px auto 20px',
+      maxWidth: '1100px',
       width: '92%',
-      zIndex: 10,
+      zIndex: 20,
+      flexWrap: 'wrap',
+      gap: '12px'
     }}>
-      {/* Brand & Mascot Icon */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      {/* Brand & Mascot */}
+      <div
+        onClick={() => handleTabClick('home')}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          cursor: 'pointer',
+        }}
+      >
         <div style={{
-          fontSize: '2rem',
+          fontSize: '1.8rem',
           lineHeight: 1,
           animation: 'floatSlow 3s ease-in-out infinite'
         }}>
@@ -39,58 +63,85 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
         </div>
         <div>
           <h1 style={{
-            fontSize: '1.25rem',
+            fontSize: '1.15rem',
             fontWeight: 600,
             color: 'var(--text-dark)',
             letterSpacing: '-0.3px',
-            lineHeight: 1.2
+            lineHeight: 1.2,
+            margin: 0
           }}>
             Little Cloud <span style={{ color: 'var(--blue-500)', fontWeight: 400 }}>Oasis</span>
           </h1>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            พื้นที่ฮีลใจ & Study Buddy สำหรับนักเรียน
+          <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: 0 }}>
+            พื้นที่ฮีลใจของเด็กเรียน
           </p>
         </div>
       </div>
 
-      {/* Online Buddies Counter */}
-      <div className="glass-card" style={{
+      {/* Navigation Tabs */}
+      <nav style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
-        padding: '6px 14px',
+        gap: '6px',
+        background: 'rgba(224, 242, 254, 0.55)',
+        padding: '4px',
         borderRadius: 'var(--radius-full)',
-        fontSize: '0.85rem',
-        color: 'var(--blue-600)',
-        fontWeight: 500,
+        overflowX: 'auto',
       }}>
-        <Users size={16} />
-        <span>เพื่อนร่วมท้องฟ้า <strong>{activeOnlineCount.toLocaleString()}</strong> คน</span>
-        <span style={{
-          width: '8px',
-          height: '8px',
-          borderRadius: '50%',
-          backgroundColor: '#22c55e',
-          display: 'inline-block',
-          animation: 'pulseSoft 1.5s infinite'
-        }} />
-      </div>
+        {navTabs.map((tab) => {
+          const isActive = currentRoute === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => handleTabClick(tab.id)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '7px 14px',
+                borderRadius: 'var(--radius-full)',
+                fontSize: '0.86rem',
+                fontWeight: isActive ? 600 : 400,
+                color: isActive ? 'var(--blue-600)' : 'var(--text-dark)',
+                background: isActive ? '#ffffff' : 'transparent',
+                boxShadow: isActive ? '0 2px 8px rgba(56, 189, 248, 0.25)' : 'none',
+                transition: 'all 0.2s ease',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              {tab.icon}
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
+      </nav>
 
-      {/* Actions (Shredder, Audio, Chat) */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <button
-          onClick={() => {
-            audioService.playPop();
-            onOpenShredder();
-          }}
-          className="cozy-btn-secondary"
-          title="ระบายความกังวลเรื่องการบ้าน/สอบ"
-          style={{ padding: '8px 16px', fontSize: '0.88rem' }}
-        >
-          <Sparkles size={16} />
-          <span>ทิ้งความเครียด</span>
-        </button>
+      {/* Actions (Online counter & Audio) */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        {/* Live Buddy Counter */}
+        <div className="glass-card" style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          padding: '6px 12px',
+          borderRadius: 'var(--radius-full)',
+          fontSize: '0.8rem',
+          color: 'var(--blue-600)',
+          fontWeight: 500,
+        }}>
+          <Users size={14} />
+          <span>{activeOnlineCount.toLocaleString()} คน</span>
+          <span style={{
+            width: '7px',
+            height: '7px',
+            borderRadius: '50%',
+            backgroundColor: '#22c55e',
+            display: 'inline-block',
+            animation: 'pulseSoft 1.5s infinite'
+          }} />
+        </div>
 
+        {/* Mute Button */}
         <button
           onClick={onToggleMute}
           className="glass-card"
@@ -99,25 +150,13 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '40px',
-            height: '40px',
+            width: '38px',
+            height: '38px',
             borderRadius: '50%',
             color: isMuted ? 'var(--text-muted)' : 'var(--blue-500)'
           }}
         >
           {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-        </button>
-
-        <button
-          onClick={() => {
-            audioService.playPop();
-            onOpenChat();
-          }}
-          className="cozy-btn-primary"
-          style={{ padding: '8px 18px', fontSize: '0.88rem' }}
-        >
-          <MessageCircleHeart size={18} />
-          <span>คุยกับน้องเมฆ</span>
         </button>
       </div>
     </header>

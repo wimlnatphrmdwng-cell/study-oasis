@@ -1,22 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import type { PageRoute } from './types/navigation.types';
 import { SkyBackground } from './components/layout/SkyBackground';
 import { TopNavigation } from './components/layout/TopNavigation';
-import { TimeGreeting } from './components/greeting/TimeGreeting';
-import { StudentAffirmationCard } from './components/greeting/StudentAffirmationCard';
-import { PomodoroTimer } from './components/study/PomodoroTimer';
-import { AmbientSoundMixer } from './components/study/AmbientSoundMixer';
-import { SmallWinsList } from './components/study/SmallWinsList';
-import { StudyMascot } from './components/mascot/StudyMascot';
-import { AnxietyShredder } from './components/stress-relief/AnxietyShredder';
 import { BubblePopCanvas } from './components/stress-relief/BubblePopCanvas';
-import { ChatModal } from './components/chat/ChatModal';
+import { HomePage } from './pages/HomePage';
+import { StudyPage } from './pages/StudyPage';
+import { ChatPage } from './pages/ChatPage';
+import { RelaxPage } from './pages/RelaxPage';
+import { JournalPage } from './pages/JournalPage';
 import { audioService } from './services/audioService';
 
 export const App: React.FC = () => {
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [isShredderOpen, setIsShredderOpen] = useState(false);
+  // Sync state with URL hash (e.g. #/study, #/chat)
+  const getRouteFromHash = (): PageRoute => {
+    const hash = window.location.hash.replace('#/', '').replace('#', '');
+    if (['home', 'study', 'chat', 'relax', 'journal'].includes(hash)) {
+      return hash as PageRoute;
+    }
+    return 'home';
+  };
+
+  const [currentRoute, setCurrentRoute] = useState<PageRoute>(getRouteFromHash());
   const [isMuted, setIsMuted] = useState(false);
   const [onlineCount] = useState(1428);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentRoute(getRouteFromHash());
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigate = (route: PageRoute) => {
+    window.location.hash = `#/${route}`;
+    setCurrentRoute(route);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const toggleMute = () => {
     const nextMute = !isMuted;
@@ -29,60 +49,29 @@ export const App: React.FC = () => {
 
   return (
     <div style={{ minHeight: '100vh', position: 'relative', paddingBottom: '40px' }}>
-      {/* 1. Dynamic Pastel Sky & Cloud Backdrop */}
+      {/* 1. Global Pastel Sky Background */}
       <SkyBackground />
 
       {/* 2. Floating Clickable Stress-Relief Cloud Bubbles */}
       <BubblePopCanvas />
 
-      {/* 3. Top Navigation with Brand & Live Counter */}
+      {/* 3. Global Glassmorphism Top Navigation */}
       <TopNavigation
-        onOpenChat={() => setIsChatOpen(true)}
-        onOpenShredder={() => setIsShredderOpen(true)}
+        currentRoute={currentRoute}
+        onNavigate={navigate}
         isMuted={isMuted}
         onToggleMute={toggleMute}
         activeOnlineCount={onlineCount}
       />
 
+      {/* 4. Active Page Content */}
       <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 20px' }}>
-        {/* 4. Warm Time-based Greeting */}
-        <TimeGreeting />
-
-        {/* 5. Daily Student Affirmation Card */}
-        <StudentAffirmationCard />
-
-        {/* 6. Core Study Grid (Pomodoro, Mascot, Sound Mixer, Small Wins) */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '24px',
-          alignItems: 'start',
-          marginTop: '10px'
-        }}>
-          {/* Left Column: Pomodoro Focus Timer & Mascot */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <PomodoroTimer />
-            <StudyMascot onOpenChat={() => setIsChatOpen(true)} />
-          </div>
-
-          {/* Right Column: Sound Mixer & Small Wins */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <AmbientSoundMixer />
-            <SmallWinsList />
-          </div>
-        </div>
+        {currentRoute === 'home' && <HomePage onNavigate={navigate} />}
+        {currentRoute === 'study' && <StudyPage />}
+        {currentRoute === 'chat' && <ChatPage />}
+        {currentRoute === 'relax' && <RelaxPage />}
+        {currentRoute === 'journal' && <JournalPage />}
       </main>
-
-      {/* 7. Modals: AI Chat Companion & Anxiety Shredder */}
-      <ChatModal
-        isOpen={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
-      />
-
-      <AnxietyShredder
-        isOpen={isShredderOpen}
-        onClose={() => setIsShredderOpen(false)}
-      />
     </div>
   );
 };
