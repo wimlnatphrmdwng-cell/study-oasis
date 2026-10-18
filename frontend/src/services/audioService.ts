@@ -77,6 +77,187 @@ class AudioService {
     }
   }
 
+  // Realistic animal vocalizations synthesized in real-time
+  public playPetVoice(type: string = 'cat') {
+    if (this.isMuted) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+
+      if (type === 'cat') {
+        // Sweet kitten mew: 680Hz -> 510Hz with soft vibrato
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(620, now);
+        osc.frequency.exponentialRampToValueAtTime(740, now + 0.08);
+        osc.frequency.exponentialRampToValueAtTime(490, now + 0.32);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.18, now + 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.38);
+      } else if (type === 'dog') {
+        // Friendly playful puppy yip: 380Hz -> 540Hz -> 300Hz
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(360, now);
+        osc.frequency.linearRampToValueAtTime(560, now + 0.07);
+        osc.frequency.exponentialRampToValueAtTime(280, now + 0.22);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.2, now + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.26);
+      } else if (type === 'gecko') {
+        // Cute gecko click-chirp: dual rapid high-frequency blips
+        [0, 0.09].forEach((offset) => {
+          const osc = this.ctx!.createOscillator();
+          const gain = this.ctx!.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1400, now + offset);
+          osc.frequency.exponentialRampToValueAtTime(1900, now + offset + 0.04);
+
+          gain.gain.setValueAtTime(0.14, now + offset);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.06);
+
+          osc.connect(gain);
+          gain.connect(this.ctx!.destination);
+          osc.start(now + offset);
+          osc.stop(now + offset + 0.07);
+        });
+      } else if (type === 'rabbit') {
+        // Soft nose snuffle & squeak
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(840, now);
+        osc.frequency.linearRampToValueAtTime(980, now + 0.08);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.12, now + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.2);
+      } else if (type === 'squirrel') {
+        // Quick playful acorn chatter
+        [0, 0.06, 0.12].forEach((offset, idx) => {
+          const osc = this.ctx!.createOscillator();
+          const gain = this.ctx!.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1100 + idx * 200, now + offset);
+          gain.gain.setValueAtTime(0.12, now + offset);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.045);
+          osc.connect(gain);
+          gain.connect(this.ctx!.destination);
+          osc.start(now + offset);
+          osc.stop(now + offset + 0.05);
+        });
+      } else {
+        // Turtle cute peaceful water drop bubble chime
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.exponentialRampToValueAtTime(1040, now + 0.12);
+
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.38);
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // Deep soothing cat purr rumble simulation
+  public playPurr() {
+    if (this.isMuted) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+
+      // Low frequency carrier with tremolo modulation
+      const carrier = this.ctx.createOscillator();
+      const tremolo = this.ctx.createOscillator();
+      const tremoloGain = this.ctx.createGain();
+      const mainGain = this.ctx.createGain();
+
+      carrier.type = 'sine';
+      carrier.frequency.setValueAtTime(32, now); // 32 Hz deep rumble
+
+      tremolo.type = 'sine';
+      tremolo.frequency.setValueAtTime(24, now); // Purr flutter rate
+      tremoloGain.gain.setValueAtTime(0.5, now);
+
+      tremolo.connect(tremoloGain.gain);
+
+      mainGain.gain.setValueAtTime(0.001, now);
+      mainGain.gain.linearRampToValueAtTime(0.22, now + 0.3);
+      mainGain.gain.linearRampToValueAtTime(0.18, now + 0.9);
+      mainGain.gain.exponentialRampToValueAtTime(0.001, now + 1.4);
+
+      carrier.connect(mainGain);
+      mainGain.connect(this.ctx.destination);
+
+      carrier.start(now);
+      tremolo.start(now);
+      carrier.stop(now + 1.45);
+      tremolo.stop(now + 1.45);
+    } catch {
+      // ignore
+    }
+  }
+
+  // Realistic crunchy munching sound for feeding treats
+  public playMunch() {
+    if (this.isMuted) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+
+      [0, 0.16, 0.32].forEach((offset) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(320 + Math.random() * 80, now + offset);
+        osc.frequency.exponentialRampToValueAtTime(140, now + offset + 0.08);
+
+        gain.gain.setValueAtTime(0.18, now + offset);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.09);
+
+        osc.connect(gain);
+        gain.connect(this.ctx!.destination);
+
+        osc.start(now + offset);
+        osc.stop(now + offset + 0.1);
+      });
+    } catch {
+      // ignore
+    }
+  }
+
+
   // Gentle Pink/Brown Noise filtered for gentle rainfall outside study room
   public startRain(volume: number = 0.25) {
     if (this.rainNode) {
